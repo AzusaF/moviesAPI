@@ -42,11 +42,11 @@ app.get("/api/movies", async (req,res)=>{
       var perPage = req.query.perPage;
       req.query.title ? title = req.query.title :title = null;
       let result = await  db.getAllMovies(page, perPage, title);
-      if(result.movie==null){
-         res.status(404).send("Movie Not Found");
-      }else{
+      // if(result.movie==null){
+         // res.status(404).send("Movie Not Found");
+      // }else{
          res.json(result);
-      }
+      // }
     }catch(err){
       res.status(500).json({message: err});
     }
@@ -56,11 +56,11 @@ app.get("/api/movies", async (req,res)=>{
 app.get("/api/movies/:id", async (req,res)=>{
    try{  
      let result = await db.getMovieById(req.params.id);
-     if(result.movie==null){
-      res.status(404).send("Movie Not Found");
-     }else{
+   //   if(result.movie==null){
+      // res.status(404).send("Movie Not Found");
+   //   }else{
       res.json(result);
-     }
+   //   }
    }catch(err){
       res.status(500).json({message: err});
    }
@@ -70,11 +70,11 @@ app.get("/api/movies/:id", async (req,res)=>{
 app.put("/api/movies/:id", async (req,res)=>{
    try{  
       let result = await db.updateMovieById(req.body, req.params.id);
-      if(result.movie==null){
-         res.status(404).send("Movie Not Found");
-      }else{
+      // if(result.movie==null){
+         //res.status(404).send("Movie Not Found");
+      // }else{
          res.json(result);
-      }
+      // }
    }catch(err){
       res.status(500).json({message: err});
    }
