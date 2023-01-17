@@ -29,9 +29,9 @@ app.get("/",(req,res)=>{
 app.post("/api/movies", async (req,res)=>{
    try{
      let result = await db.addNewMovie(req.body);
-     res.json(result);
+     res.status(201).json(result);
    }catch(err){
-     res.status(500).json({message: err});
+     res.status(500).json({message: err.message});
    }
 });
 
@@ -42,27 +42,25 @@ app.get("/api/movies", async (req,res)=>{
       var perPage = req.query.perPage;
       req.query.title ? title = req.query.title :title = null;
       let result = await  db.getAllMovies(page, perPage, title);
-      // if(result.movie==null){
-         // res.status(404).send("Movie Not Found");
-      // }else{
-         res.json(result);
-      // }
-    }catch(err){
-      res.status(500).json({message: err});
-    }
+      res.json(result);
+   }catch(err){
+      res.status(500).json({message: err.message});
+   }
 });
 
 // READ ONE movie BY ID
 app.get("/api/movies/:id", async (req,res)=>{
    try{  
      let result = await db.getMovieById(req.params.id);
-   //   if(result.movie==null){
-      // res.status(404).send("Movie Not Found");
-   //   }else{
+
+     if(result){
       res.json(result);
-   //   }
+     }else{
+      res.status(404).json({message: `movie ${req.params.id} not found`});
+     }
+
    }catch(err){
-      res.status(500).json({message: err});
+      res.status(500).json({message: err.message});
    }
 });
 
@@ -70,13 +68,9 @@ app.get("/api/movies/:id", async (req,res)=>{
 app.put("/api/movies/:id", async (req,res)=>{
    try{  
       let result = await db.updateMovieById(req.body, req.params.id);
-      // if(result.movie==null){
-         //res.status(404).send("Movie Not Found");
-      // }else{
-         res.json(result);
-      // }
+      res.json(result);
    }catch(err){
-      res.status(500).json({message: err});
+      res.status(500).json({message: err.message});
    }
 });
 
@@ -87,7 +81,7 @@ app.delete("/api/movies/:id", async (req,res)=>{
       await db.deleteMovieById(req.params.id);
       res.status(204).end();
    }catch(err){
-      res.status(404).json({message: err});
+      res.status(404).json({message: err.message});
    }
  });
 
