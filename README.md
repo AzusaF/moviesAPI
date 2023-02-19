@@ -1,5 +1,4 @@
-# moviesAPI
-movie catalogue app backend
+# Movie Catalogue App Backend
 
 This is the backend app for movie catalogue app.
 
